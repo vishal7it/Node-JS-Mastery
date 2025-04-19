@@ -1,10 +1,14 @@
 import express from "express"
 import mongoose from "mongoose";
+import { config } from "dotenv"
+
 const app = express()
 
-mongoose.connect("mongodb+srv://vishal7it:oestrae1rY04bAKj@cluster0.uwkso45.mongodb.net/", { dbName: "Nodejs mastery course" }).then(() => console.log("MongoDB connected succesfully ......!")).catch((err) => console.log(err))
+config({ path: ".env" })
 
-const port = 1234;
+mongoose.connect(process.env.MONGO_URI, { dbName: "Nodejs mastery course" }).then(() => console.log("MongoDB connected succesfully ......!")).catch((err) => console.log(err))
+
+const port = process.env.PORT;
 app.listen(port, () => {
     console.log(`server is runninig on port = ${port}`)
 })

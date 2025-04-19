@@ -1,13 +1,18 @@
 import express from "express"
 import mongoose from "mongoose";
 import { shortUrl, getOrignalUrl } from "./Controllers/url.js"
+import { config } from "dotenv"
+
 
 
 const app = express();
 
+config({ port: ".env" })
+
 app.use(express.urlencoded({ extended: true }))
 
-mongoose.connect("mongodb+srv://vishal7it:oestrae1rY04bAKj@cluster0.uwkso45.mongodb.net/", { dbName: "Nodejs_Mastery_course" }).then(() => { console.log("MongoDB is connected ....!") }).catch((err) => { console.log(err) })
+
+mongoose.connect(process.env.MONGO_URI, { dbName: "Nodejs_Mastery_Course" }).then(() => { console.log("MongoDB is connected ....!") }).catch((err) => { console.log(err) })
 
 //renddering ejs
 
@@ -21,7 +26,7 @@ app.post("/short", shortUrl)
 
 app.get("/:shortCode", getOrignalUrl)
 
-const port = 1234;
+const port = process.env.PORT;
 
 app.listen(port, () => {
     console.log(`server is running on port = `, port)

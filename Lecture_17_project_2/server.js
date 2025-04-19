@@ -2,9 +2,11 @@ import express from "express";
 import mongoose from "mongoose";
 import multer from "multer";
 import path from 'path';
+import { config } from 'dotenv'
 
 const app = express();
 
+config({ path: ".env" });
 import { v2 as cloudinary } from 'cloudinary';
 
 cloudinary.config({
@@ -14,7 +16,7 @@ cloudinary.config({
 });
 
 
-mongoose.connect("mongodb+srv://vishal7it:oestrae1rY04bAKj@cluster0.uwkso45.mongodb.net/", { dbName: "Nodes_Mastery_Course" }).then(() => { console.log("MongoDB is connected ....!") }).catch((err) => { console.log(err) })
+mongoose.connect(process.env.MONGO_URI, { dbName: "Nodejs_Mastery_Course" }).then(() => { console.log("MongoDB is connected ....!") }).catch((err) => { console.log(err) })
 
 
 //rendering ejs file
@@ -65,7 +67,7 @@ app.post('/upload', upload.single("file"), async (req, res) => {
     // req.body will hold the text fields, if there were any
 })
 
-const port = 1234;
+const port = process.env.PORT;
 
 app.listen(port, () => {
     console.log(`server is running on port = `, port)

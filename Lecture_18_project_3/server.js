@@ -2,10 +2,13 @@ import express from "express";
 import mongoose from "mongoose";
 import multer from "multer";
 import path from 'path';
+import { config } from "dotenv"
 
 const app = express();
 
 app.use(express.urlencoded({ extended: true }))
+
+config({ path: ".env" })
 
 import { v2 as cloudinary } from 'cloudinary';
 
@@ -16,7 +19,7 @@ cloudinary.config({
 });
 
 
-mongoose.connect("mongodb+srv://vishal7it:oestrae1rY04bAKj@cluster0.uwkso45.mongodb.net/", { dbName: "Nodes_Mastery_Course" }).then(() => { console.log("MongoDB is connected ....!") }).catch((err) => { console.log(err) })
+mongoose.connect(process.env.MONGO_URI, { dbName: "Nodejs_Mastery_Course" }).then(() => { console.log("MongoDB is connected ....!") }).catch((err) => { console.log(err) })
 
 
 //rendering login ejs file
@@ -99,7 +102,7 @@ app.post('/login', async (req, res) => {
     }
 })
 
-const port = 1234;
+const port = process.env.PORT;
 
 app.listen(port, () => {
     console.log(`server is running on port = `, port)

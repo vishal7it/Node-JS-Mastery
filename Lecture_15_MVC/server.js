@@ -1,12 +1,15 @@
 import express, { urlencoded } from "express";
 import mongoose from "mongoose";
 import { userRegister } from "./controllers/user.js";
+import { config } from "dotenv"
 
 const app = express();
 
+config({ path: ".env" })
+
 app.use(express.urlencoded({ extended: true }))
 
-mongoose.connect("mongodb+srv://vishal7it:oestrae1rY04bAKj@cluster0.uwkso45.mongodb.net/", { dbName: "Nodejs_Mastery_course" }).then(() => { console.log("MongoDB is connected ....!") }).catch((err) => { console.log(err) })
+mongoose.connect(process.env.MONGO_URI, { dbName: "Nodejs_Mastery_course" }).then(() => { console.log("MongoDB is connected ....!") }).catch((err) => { console.log(err) })
 
 
 app.get("/", (req, res) => {
@@ -14,7 +17,7 @@ app.get("/", (req, res) => {
 })
 
 app.post("/form-submit", userRegister)
-const port = 1234;
+const port = process.env.PORT;
 
 app.listen(port, () => {
     console.log(`server is running on port ${port}`)
